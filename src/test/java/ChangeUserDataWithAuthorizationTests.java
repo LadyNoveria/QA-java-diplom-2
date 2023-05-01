@@ -70,9 +70,9 @@ public class ChangeUserDataWithAuthorizationTests {
     public void errorChangeUserEmailExist() {
         Response response = userClient.userChange(userRequest, UserCreds.getCredsFrom(userResponse));
         response.then().assertThat().statusCode(SC_FORBIDDEN);
-        GeneralResponse userError = response.body().as(GeneralResponse.class);
-        assertFalse(userError.isSuccess());
-        assertEquals("User with such email already exists", userError.getMessage());
+        GeneralResponse generalResponse = response.body().as(GeneralResponse.class);
+        assertFalse(generalResponse.isSuccess());
+        assertEquals("User with such email already exists", generalResponse.getMessage());
     }
 
     @After

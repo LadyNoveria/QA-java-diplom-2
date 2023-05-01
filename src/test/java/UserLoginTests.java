@@ -31,11 +31,11 @@ public class UserLoginTests {
         userRequest.setPassword("incorrect_password");
         Response response = userClient.userLogin(userRequest);
         response.then().assertThat().statusCode(SC_UNAUTHORIZED);
-        GeneralResponse userError = response
+        GeneralResponse generalResponse = response
                 .body()
                 .as(GeneralResponse.class);
-        assertFalse(userError.isSuccess());
-        assertEquals("email or password are incorrect", userError.getMessage());
+        assertFalse(generalResponse.isSuccess());
+        assertEquals("email or password are incorrect", generalResponse.getMessage());
     }
 
     @Test
@@ -44,11 +44,11 @@ public class UserLoginTests {
         userRequest.setEmail("incorrect_email");
         Response response = userClient.userLogin(userRequest);
         response.then().assertThat().statusCode(SC_UNAUTHORIZED);
-        GeneralResponse userError = response
+        GeneralResponse generalResponse = response
                 .body()
                 .as(GeneralResponse.class);
-        assertFalse(userError.isSuccess());
-        assertEquals("email or password are incorrect", userError.getMessage());
+        assertFalse(generalResponse.isSuccess());
+        assertEquals("email or password are incorrect", generalResponse.getMessage());
     }
 
     @Test

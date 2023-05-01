@@ -45,12 +45,12 @@ public class UserCreationTests {
                 .body()
                 .as(UserResponse.class);
         Response response = userClient.userCreate(userRequest);
-        GeneralResponse userError = response
+        GeneralResponse generalResponse = response
                 .body()
                 .as(GeneralResponse.class);
         response.then().assertThat().statusCode(SC_FORBIDDEN);
-        assertFalse(userError.isSuccess());
-        assertEquals("User already exists", userError.getMessage());
+        assertFalse(generalResponse.isSuccess());
+        assertEquals("User already exists", generalResponse.getMessage());
     }
 
     @After

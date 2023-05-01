@@ -39,11 +39,11 @@ public class UserCreationParameterizedTests {
     public void errorCreatingUser() {
         UserRequest userRequest = new UserRequest(email, password, name);
         Response response = userClient.userCreate(userRequest);
-        GeneralResponse userError = response
+        GeneralResponse generalResponse = response
                 .body()
                 .as(GeneralResponse.class);
         response.then().assertThat().statusCode(SC_FORBIDDEN);
-        assertFalse(userError.isSuccess());
-        assertEquals("Email, password and name are required fields", userError.getMessage());
+        assertFalse(generalResponse.isSuccess());
+        assertEquals("Email, password and name are required fields", generalResponse.getMessage());
     }
 }

@@ -52,9 +52,9 @@ public class ChangeUserDataWithoutAuthorizationTests {
         userRequest = new UserRequest(email, password, name);
         Response response = userClient.userChange(userRequest);
         response.then().assertThat().statusCode(SC_UNAUTHORIZED);
-        GeneralResponse userError = response.body().as(GeneralResponse.class);
-        assertFalse(userError.isSuccess());
-        assertEquals("You should be authorised", userError.getMessage());
+        GeneralResponse generalResponse = response.body().as(GeneralResponse.class);
+        assertFalse(generalResponse.isSuccess());
+        assertEquals("You should be authorised", generalResponse.getMessage());
     }
 
     @After
