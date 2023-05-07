@@ -1,11 +1,15 @@
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import user.UserCreds;
 import user.UserRequest;
+import user.UserResponse;
 
 import static org.apache.http.HttpStatus.SC_FORBIDDEN;
+import static org.apache.http.HttpStatus.SC_OK;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
@@ -17,6 +21,8 @@ public class UserCreationParameterizedTests {
     private final String name;
 
     private final UserClient userClient;
+
+    private UserRequest userRequest;
 
     public UserCreationParameterizedTests(String email, String password, String name) {
         this.email = email;
@@ -37,13 +43,23 @@ public class UserCreationParameterizedTests {
     @Test
     @DisplayName("403 FORBIDDEN: creating a user without required parameters")
     public void errorCreatingUser() {
-        UserRequest userRequest = new UserRequest(email, password, name);
+        userRequest = new UserRequest(email, password, name);
         Response response = userClient.userCreate(userRequest);
+        response.then().assertThat().statusCode(SC_FORBIDDEN);
         GeneralResponse generalResponse = response
                 .body()
                 .as(GeneralResponse.class);
-        response.then().assertThat().statusCode(SC_FORBIDDEN);
         assertFalse(generalResponse.isSuccess());
         assertEquals("Email, password and name are required fields", generalResponse.getMessage());
+    }
+
+    @After
+    public void tearDown() {
+        Response userResponse = userClient.userLogin(userRequest);
+        if (userResponse.getStatusCode() == 200) {
+            userClient.userDelete(userRequest, UserCreds.getCredsFrom(userResponse
+                    .body()
+                    .as(UserResponse.class)));
+        }
     }
 }

@@ -9,13 +9,12 @@ import java.util.HashMap;
 import static io.restassured.RestAssured.given;
 
 public class UserClient {
-    private static final String BASE_URI = "https://stellarburgers.nomoreparties.site/";
     private static final String CREATE_USER_PATH = "api/auth/register";
     private static final String LOGIN_USER_PATH = "api/auth/login";
     private static final String USER_PATH = "api/auth/user";
 
     public UserClient() {
-        RestAssured.baseURI = BASE_URI;
+        RestAssured.baseURI = Constants.BASE_URI;;
     }
 
     @Step("Create user")

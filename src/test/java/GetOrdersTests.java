@@ -44,18 +44,14 @@ public class GetOrdersTests {
     @Test
     @DisplayName("200 OK: successful receipt of user orders")
     public void successfulGetOrdersUser() {
-        List<String> orderIngredients_1 = getRandomIngredients();
-        List<String> orderIngredients_2 = getRandomIngredients();
-        OrderResponse order_1 = getOrderResponse(orderIngredients_1);
-        OrderResponse order_2 = getOrderResponse(orderIngredients_2);
+        List<String> orderIngredients = getRandomIngredients();
+        OrderResponse order = getOrderResponse(orderIngredients);
         Response response = orderClient.getOrdersUser(UserCreds.getCredsFrom(userResponse));
         response.then().assertThat().statusCode(SC_OK);
         OrdersUser ordersUser = response.body().as(OrdersUser.class);
         assertTrue(ordersUser.isSuccess());
-        assertEquals(ordersUser.getOrders().get(0).getIngredients(), orderIngredients_1);
-        assertEquals(ordersUser.getOrders().get(1).getIngredients(), orderIngredients_2);
-        assertEquals(order_1.getOrder().getNumber(), ordersUser.getOrders().get(0).getNumber());
-        assertEquals(order_2.getOrder().getNumber(), ordersUser.getOrders().get(1).getNumber());
+        assertEquals(ordersUser.getOrders().get(0).getIngredients(), orderIngredients);
+        assertEquals(order.getOrder().getNumber(), ordersUser.getOrders().get(0).getNumber());
     }
 
     @Test

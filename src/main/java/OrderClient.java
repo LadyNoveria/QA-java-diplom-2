@@ -7,13 +7,10 @@ import user.UserCreds;
 import static io.restassured.RestAssured.given;
 
 public class OrderClient {
-
-    private static final String BASE_URI = "https://stellarburgers.nomoreparties.site/";
-    private static final String CREATE_ORDER_PATH = "api/orders";
-    private static final String GET_ORDER_PATH = "api/orders";
+    private static final String ORDER_PATH = "api/orders";
 
     public OrderClient() {
-        RestAssured.baseURI = BASE_URI;
+        RestAssured.baseURI = Constants.BASE_URI;
     }
 
     @Step("Create order")
@@ -23,7 +20,7 @@ public class OrderClient {
                 .header("Authorization", userCreds.getAccessToken())
                 .body(ingredients)
                 .when()
-                .post(CREATE_ORDER_PATH);
+                .post(ORDER_PATH);
     }
 
     @Step("Create order without authorization")
@@ -32,7 +29,7 @@ public class OrderClient {
                 .header("Content-type", "application/json")
                 .body(ingredients)
                 .when()
-                .post(CREATE_ORDER_PATH);
+                .post(ORDER_PATH);
     }
 
     @Step("Get orders user")
@@ -41,7 +38,7 @@ public class OrderClient {
                 .header("Content-type", "application/json")
                 .header("Authorization", userCreds.getAccessToken())
                 .when()
-                .get(GET_ORDER_PATH);
+                .get(ORDER_PATH);
     }
 
     @Step("Get orders user")
@@ -49,6 +46,6 @@ public class OrderClient {
         return given()
                 .header("Content-type", "application/json")
                 .when()
-                .get(GET_ORDER_PATH);
+                .get(ORDER_PATH);
     }
 }

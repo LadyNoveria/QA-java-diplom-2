@@ -5,12 +5,10 @@ import ingredient.IngredientList;
 import static io.restassured.RestAssured.given;
 
 public class IngredientClient {
-
-    private static final String BASE_URI = "https://stellarburgers.nomoreparties.site/";
     private static final String GET_INGREDIENT_INFO_PATH = "api/ingredients";
 
     public IngredientClient() {
-        RestAssured.baseURI = BASE_URI;
+        RestAssured.baseURI = Constants.BASE_URI;;
     }
 
     @Step("Get ingredient list")
